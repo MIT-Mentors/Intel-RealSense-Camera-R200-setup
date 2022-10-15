@@ -4,7 +4,7 @@ Documentation of the procedure to set up an Intel RealSense Camera R200.
 ## Software requirements
 
 ### Operating system
-Tested on Ubuntu 18.04
+Tested on Ubuntu 20.04
 
 ### Robotic Operating System
 Ros Noetic
@@ -39,6 +39,7 @@ wget https://github.com/IntelRealSense/realsense-ros/archive/refs/tags/1.8.0.zip
 To unzip the package, go to that directory and then execute
 ```
 unzip 1.8.0.zip
+rm 1.8.0.zip
 ```
 
 Extract it to ~/catkin_ws/src.
@@ -61,13 +62,18 @@ To install libusb library for communication with USB devices.
 sudo apt-get install libusb-1.0-0-dev pkg-config libglfw3 dev
 ```
 ```
-sudo apt install ros-kinetic-pcl-ros
+sudo apt install ros-noetic-pcl-ros
 ```
 
 ### Modifications to be done in code
 * Include this line in catkin_ws/src/librealsense/src/uvc-v4l2.cpp
 ```
 #include <sys/sysmacros.h>
+```
+
+* Include this line in catkin_ws/src/librealsense/src/types.h file
+```
+#include <functional>
 ```
 
 * Go to CMakeLists.txt file of librealsens package and then, you would see this
@@ -103,10 +109,15 @@ endif()
 ```
 Here we change the code for libusb library to be used instead of V4L2 for accessing the camera.
 
+* Add the following line to librealsense/CMakeLists.txt
+```
+set(CMAKE_CXX_STANDARD 14)  
+```
+
 ### Build packages
 ```
 cd ~/catkin_ws
 catkin_make --pkg librealsense
-catkin make --pkg realsense_camera
+catkin_make --pkg realsense_camera
 ```
 Note: If the build gets stuck (Due to overheating of processor probably) then add -j1 as a command line argument to the catkin_make command
