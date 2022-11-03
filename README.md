@@ -59,7 +59,7 @@ rosdep -y install --from-paths src --ignore-src
 
 To install libusb library for communication with USB devices.
 ```
-sudo apt-get install libusb-1.0-0-dev pkg-config libglfw3 dev
+sudo apt-get install libusb-1.0-0-dev pkg-config libglfw3-dev
 ```
 ```
 sudo apt install ros-noetic-pcl-ros
@@ -112,6 +112,14 @@ Here we change the code for libusb library to be used instead of V4L2 for access
 * Add the following line to librealsense/CMakeLists.txt
 ```
 set(CMAKE_CXX_STANDARD 14)  
+```
+
+### Installation of udev rules
+If you look at the librealsense repository, it comes with udev rules and scripts for resetting them when you connect, so set them up.
+```
+cd ~/catkin_ws/src/librealsense
+sudo cp config/99-realsense-libusb.rules /etc/ude                                           v/rules.d/
+sudo udevadm control --reload-rules && udevadm trigger
 ```
 
 ### Build packages
