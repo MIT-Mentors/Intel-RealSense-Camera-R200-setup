@@ -118,7 +118,7 @@ set(CMAKE_CXX_STANDARD 14)
 If you look at the librealsense repository, it comes with udev rules and scripts for resetting them when you connect, so set them up.
 ```
 cd ~/catkin_ws/src/librealsense
-sudo cp config/99-realsense-libusb.rules /etc/ude                                           v/rules.d/
+sudo cp config/99-realsense-libusb.rules /etc/udev/rules.d/
 sudo udevadm control --reload-rules && udevadm trigger
 ```
 
